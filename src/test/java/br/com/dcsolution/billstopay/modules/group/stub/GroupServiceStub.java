@@ -1,4 +1,4 @@
-package br.com.dcsolution.billstopay.modules.group.service;
+package br.com.dcsolution.billstopay.modules.group.stub;
 
 import br.com.dcsolution.billstopay.modules.group.dto.GroupDto;
 import br.com.dcsolution.billstopay.modules.group.entity.Group;
@@ -12,13 +12,20 @@ import java.util.List;
 public final class GroupServiceStub {
     public static final String NAME = "free-card";
     public static final Integer ID = 1;
-    public static final Integer PAGE= 1;
+    public static final Integer PAGE = 1;
     public static final Integer SIZE = 10;
 
     public static GroupDto generateDto() {
         final GroupDto groupDto = new GroupDto();
         groupDto.setId(ID);
         groupDto.setName(NAME);
+        return groupDto;
+    }
+
+    public static GroupDto generateDtoParameter(final Integer id, final String name) {
+        final GroupDto groupDto = new GroupDto();
+        groupDto.setId(id);
+        groupDto.setName(name);
         return groupDto;
     }
 
@@ -31,14 +38,14 @@ public final class GroupServiceStub {
 
     public static Page<Group> generatePageEntity() {
         final List<Group> groups = new ArrayList<>();
-        groups.add(new Group(1, "free"));
+        groups.add(new Group(ID, NAME));
 
         return new PageImpl<>(groups);
     }
 
     public static Page<GroupDto> generatePageDto() {
         final List<GroupDto> groups = new ArrayList<>();
-        groups.add(new GroupDto(1, "free"));
+        groups.add(new GroupDto(ID, NAME));
 
         return new PageImpl<>(groups);
     }

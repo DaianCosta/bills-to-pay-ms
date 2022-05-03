@@ -5,6 +5,7 @@ import br.com.dcsolution.billstopay.modules.group.converter.GroupConverter;
 import br.com.dcsolution.billstopay.modules.group.dto.GroupDto;
 import br.com.dcsolution.billstopay.modules.group.entity.Group;
 import br.com.dcsolution.billstopay.modules.group.repository.GroupRepository;
+import br.com.dcsolution.billstopay.modules.group.stub.GroupServiceStub;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

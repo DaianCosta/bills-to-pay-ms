@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @RestControllerAdvice
 public class ErrorExceptionHandler {
 
@@ -21,7 +20,7 @@ public class ErrorExceptionHandler {
 
     @ExceptionHandler({Exception.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ApiErrorsDto handleIllegalArgumentException(final Exception ex) {
+    public ApiErrorsDto exceptionHandler(final Exception ex) {
         final String error = ex.getCause().toString();
         logger.info("Exception ms Bills to Pay");
         logger.error(error);
