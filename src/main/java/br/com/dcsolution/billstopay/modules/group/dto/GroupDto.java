@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
@@ -15,7 +14,6 @@ import java.io.Serializable;
 public class GroupDto implements Serializable {
 
     @JsonProperty("id")
-    @Max(999999999)
     private Integer id;
 
     @JsonProperty("name")
