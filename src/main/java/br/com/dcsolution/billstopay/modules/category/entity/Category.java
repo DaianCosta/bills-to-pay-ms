@@ -1,4 +1,4 @@
-package br.com.dcsolution.billstopay.modules.group.entity;
+package br.com.dcsolution.billstopay.modules.category.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,12 +8,12 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name="\"group\"")
+@Table(name = "category")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Group {
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
