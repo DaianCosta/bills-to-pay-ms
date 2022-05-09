@@ -43,7 +43,8 @@ class CategoryServiceImpl implements CategoryService {
     public Page<CategoryDto> findAll(final Integer page,
                                      final Integer size,
                                      final String searchTerm) {
-        final Page<Category> categories = categoryRepository.search(searchTerm, categoryConverter.generatePageRequest(page, size));
+        final Page<Category> categories = categoryRepository.search(searchTerm,
+                categoryConverter.generatePageRequest(page, size));
         return categoryConverter.pageEntityToPageDto(categories);
     }
 

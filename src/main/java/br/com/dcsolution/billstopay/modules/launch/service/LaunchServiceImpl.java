@@ -43,7 +43,8 @@ class LaunchServiceImpl implements LaunchService {
     public Page<LaunchDto> findAll(final Integer page,
                                    final Integer size,
                                    final String searchTerm) {
-        final Page<Launch> categories = launchRepository.search(searchTerm, launchConverter.generatePageRequest(page, size));
+        final Page<Launch> categories = launchRepository.search(searchTerm,
+                launchConverter.generatePageRequest(page, size));
         return launchConverter.pageEntityToPageDto(categories);
     }
 
