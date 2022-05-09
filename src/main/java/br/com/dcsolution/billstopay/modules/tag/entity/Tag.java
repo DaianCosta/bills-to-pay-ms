@@ -1,5 +1,6 @@
-package br.com.dcsolution.billstopay.modules.group.entity;
+package br.com.dcsolution.billstopay.modules.tag.entity;
 
+import br.com.dcsolution.billstopay.modules.launch.entity.Launch;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,12 +9,12 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name="`group`")
+@Table(name = "`tag`")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Group {
+public class Tag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

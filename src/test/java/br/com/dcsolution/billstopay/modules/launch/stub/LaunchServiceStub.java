@@ -15,6 +15,8 @@ public final class LaunchServiceStub {
     public static final Integer PAGE = 1;
     public static final Integer SIZE = 10;
 
+    /*
+
     public static LaunchDto generateDto() {
         final LaunchDto launchDto = new LaunchDto();
         launchDto.setId(ID);
@@ -37,10 +39,10 @@ public final class LaunchServiceStub {
     }
 
     public static Page<Launch> generatePageEntity() {
-        final List<Launch> categories = new ArrayList<>();
-        categories.add(new Launch(ID, DESCRIPTION));
+        final List<Launch> lances = new ArrayList<>();
+        lances.add(new Launch(ID, DESCRIPTION));
 
-        return new PageImpl<>(categories);
+        return new PageImpl<>(lances);
     }
 
     public static Page<LaunchDto> generatePageDto() {
@@ -53,5 +55,7 @@ public final class LaunchServiceStub {
     public static PageRequest generatePageRequest() {
         return PageRequest.of(0, 10);
     }
+
+     */
 
 }

@@ -1,8 +1,8 @@
-package br.com.dcsolution.billstopay.modules.group.rest;
+package br.com.dcsolution.billstopay.modules.tag.rest;
 
-import br.com.dcsolution.billstopay.modules.group.dto.GroupDto;
-import br.com.dcsolution.billstopay.modules.group.service.GroupService;
-import br.com.dcsolution.billstopay.modules.group.stub.GroupServiceStub;
+import br.com.dcsolution.billstopay.modules.tag.dto.TagDto;
+import br.com.dcsolution.billstopay.modules.tag.service.TagService;
+import br.com.dcsolution.billstopay.modules.tag.stub.TagServiceStub;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,7 +21,7 @@ import java.util.Objects;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class GroupControllerTest {
+class TagControllerTest {
 
     final HttpHeaders headers = new HttpHeaders();
     private String URL_BASE;
@@ -33,7 +33,7 @@ class GroupControllerTest {
     ObjectMapper objectMapper;
 
     @Autowired
-    GroupService groupService;
+    TagService tagService;
 
     // bind the above RANDOM_PORT
     @LocalServerPort
@@ -42,7 +42,7 @@ class GroupControllerTest {
     @BeforeEach
     public void init() throws MalformedURLException {
 
-        groupService.create(GroupServiceStub.generateDto());
+        tagService.create(TagServiceStub.generateDto());
         URL_BASE = new URL("http://localhost:" + port + "/group").toString();
         headers.setContentType(MediaType.APPLICATION_JSON);
     }
@@ -66,7 +66,7 @@ class GroupControllerTest {
     @Order(2)
     void findById() {
 
-        final ResponseEntity<GroupDto> response = restTemplate.getForEntity(URL_BASE + "/1", GroupDto.class);
+        final ResponseEntity<TagDto> response = restTemplate.getForEntity(URL_BASE + "/1", TagDto.class);
 
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertEquals(1, Objects.requireNonNull(response.getBody()).getId());
@@ -76,8 +76,8 @@ class GroupControllerTest {
     @Order(3)
     void findByIdBadRequest() {
 
-        final ResponseEntity<GroupDto> response = restTemplate.getForEntity(URL_BASE + "/10",
-                GroupDto.class);
+        final ResponseEntity<TagDto> response = restTemplate.getForEntity(URL_BASE + "/10",
+                TagDto.class);
 
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
@@ -86,13 +86,13 @@ class GroupControllerTest {
     @Order(4)
     void post() throws JsonProcessingException {
         final HttpEntity<String> request = new HttpEntity<>(objectMapper
-                .writeValueAsString(GroupServiceStub.generateDtoParameter(null, "banrisul")),
+                .writeValueAsString(TagServiceStub.generateDtoParameter(null, "banrisul")),
                 headers);
 
         final ResponseEntity<Void> response = restTemplate.postForEntity(URL_BASE,
                 request, Void.class);
 
-        final Page<GroupDto> groups = groupService.findAll(0, 10, "");
+        final Page<TagDto> groups = tagService.findAll(0, 10, "");
         final String groupCreated = groups.getContent().get(1).getName();
 
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -104,7 +104,7 @@ class GroupControllerTest {
     @Order(5)
     void postBadRequest() throws JsonProcessingException {
         final HttpEntity<String> request = new HttpEntity<>(objectMapper
-                .writeValueAsString(GroupServiceStub.generateDtoParameter(null, null)),
+                .writeValueAsString(TagServiceStub.generateDtoParameter(null, null)),
                 headers);
 
         final ResponseEntity<Void> response = restTemplate.postForEntity(URL_BASE,
@@ -131,13 +131,13 @@ class GroupControllerTest {
     @Order(6)
     void put() throws JsonProcessingException {
         final HttpEntity<String> request = new HttpEntity<>(objectMapper
-                .writeValueAsString(GroupServiceStub.generateDtoParameter(1, "santander")),
+                .writeValueAsString(TagServiceStub.generateDtoParameter(1, "santander")),
                 headers);
 
         final ResponseEntity<Void> response = restTemplate.exchange(URL_BASE,
                 HttpMethod.PUT, request, Void.class);
 
-        final GroupDto group = groupService.findById(1);
+        final TagDto group = tagService.findById(1);
 
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertEquals("santander", group.getName());
@@ -147,7 +147,7 @@ class GroupControllerTest {
     @Order(7)
     void putBadRequest() throws JsonProcessingException {
         final HttpEntity<String> request = new HttpEntity<>(objectMapper
-                .writeValueAsString(GroupServiceStub.generateDtoParameter(10, "santander")),
+                .writeValueAsString(TagServiceStub.generateDtoParameter(10, "santander")),
                 headers);
 
         final ResponseEntity<Void> response = restTemplate.exchange(URL_BASE,

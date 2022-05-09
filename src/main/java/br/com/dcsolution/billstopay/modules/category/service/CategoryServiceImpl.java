@@ -27,18 +27,15 @@ class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void create(final CategoryDto categoryDto) {
+        validateExistingName(categoryDto);
         categoryRepository.save(categoryConverter.dtoToEntity(categoryDto));
     }
 
     @Override
     public void update(final CategoryDto categoryDto) {
 
-        final Optional<Category> category = categoryRepository.findById(categoryDto.getId());
-
-        if (category.isEmpty()) {
-            throw new BusinessException(MessageBusiness.NO_RECORD);
-        }
-
+        validateNoRecord(categoryDto);
+        validateExistingName(categoryDto);
         categoryRepository.save(categoryConverter.dtoToEntity(categoryDto));
     }
 
@@ -64,5 +61,21 @@ class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new BusinessException(MessageBusiness.NO_RECORD));
 
         categoryRepository.delete(category);
+    }
+
+    void validateNoRecord(final CategoryDto categoryDto) {
+        final Optional<Category> category = categoryRepository.findById(categoryDto.getId());
+
+        if (category.isEmpty()) {
+            throw new BusinessException(MessageBusiness.NO_RECORD);
+        }
+    }
+
+    void validateExistingName(final CategoryDto categoryDto) {
+        final Optional<Category> category = categoryRepository.isExistName(categoryDto.getName(), categoryDto.getId());
+
+        if (category.isPresent()) {
+            throw new BusinessException(MessageBusiness.EXISTING_RECORD);
+        }
     }
 }

@@ -20,6 +20,7 @@ import java.util.Optional;
 @ExtendWith(MockitoExtension.class)
 class LaunchServiceImplTest {
 
+    /*
     @Mock
     private LaunchRepository launchRepository;
 
@@ -115,4 +116,6 @@ class LaunchServiceImplTest {
 
         Mockito.verify(launchRepository, Mockito.times(1)).delete(launch);
     }
+
+     */
 }

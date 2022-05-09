@@ -23,6 +23,8 @@ import java.util.Objects;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class LaunchControllerTest {
 
+    /*
+
     final HttpHeaders headers = new HttpHeaders();
     private String URL_BASE;
 
@@ -173,4 +175,5 @@ class LaunchControllerTest {
 
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
+    */
 }

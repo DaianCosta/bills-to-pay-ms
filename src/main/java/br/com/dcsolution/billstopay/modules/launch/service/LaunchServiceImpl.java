@@ -27,18 +27,15 @@ class LaunchServiceImpl implements LaunchService {
 
     @Override
     public void create(final LaunchDto categoryDto) {
+        validateExistingDescription(categoryDto);
         launchRepository.save(launchConverter.dtoToEntity(categoryDto));
     }
 
     @Override
     public void update(final LaunchDto categoryDto) {
 
-        final Optional<Launch> category = launchRepository.findById(categoryDto.getId());
-
-        if (category.isEmpty()) {
-            throw new BusinessException(MessageBusiness.NO_RECORD);
-        }
-
+        validateNoRecord(categoryDto);
+        validateExistingDescription(categoryDto);
         launchRepository.save(launchConverter.dtoToEntity(categoryDto));
     }
 
@@ -64,5 +61,22 @@ class LaunchServiceImpl implements LaunchService {
                 .orElseThrow(() -> new BusinessException(MessageBusiness.NO_RECORD));
 
         launchRepository.delete(category);
+    }
+
+    void validateNoRecord(final LaunchDto launchDto) {
+        final Optional<Launch> launch = launchRepository.findById(launchDto.getId());
+
+        if (launch.isEmpty()) {
+            throw new BusinessException(MessageBusiness.NO_RECORD);
+        }
+    }
+
+    void validateExistingDescription(final LaunchDto launchDto) {
+        final Optional<Launch> launch = launchRepository.isExistDescription(launchDto.getDescription(),
+                launchDto.getId());
+
+        if (launch.isPresent()) {
+            throw new BusinessException(MessageBusiness.EXISTING_RECORD);
+        }
     }
 }

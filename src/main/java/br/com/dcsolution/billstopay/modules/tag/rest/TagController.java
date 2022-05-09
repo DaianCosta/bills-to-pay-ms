@@ -1,7 +1,7 @@
-package br.com.dcsolution.billstopay.modules.group.rest;
+package br.com.dcsolution.billstopay.modules.tag.rest;
 
-import br.com.dcsolution.billstopay.modules.group.dto.GroupDto;
-import br.com.dcsolution.billstopay.modules.group.service.GroupService;
+import br.com.dcsolution.billstopay.modules.tag.dto.TagDto;
+import br.com.dcsolution.billstopay.modules.tag.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -11,38 +11,38 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/group")
-public class GroupController {
+@RequestMapping("/tag")
+public class TagController {
 
-    private final GroupService groupService;
+    private final TagService groupService;
 
     @Autowired
-    public GroupController(final GroupService groupService) {
+    public TagController(final TagService groupService) {
         this.groupService = groupService;
     }
 
     @GetMapping
-    public ResponseEntity<Page<GroupDto>> findAll(@RequestParam final Integer page,
-                                                  @RequestParam final Integer size,
-                                                  @RequestParam final String searchTerm) {
+    public ResponseEntity<Page<TagDto>> findAll(@RequestParam final Integer page,
+                                                @RequestParam final Integer size,
+                                                @RequestParam final String searchTerm) {
         return new ResponseEntity<>(groupService.findAll(page, size, searchTerm),
                 HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GroupDto> findById(@PathVariable final Integer id) {
+    public ResponseEntity<TagDto> findById(@PathVariable final Integer id) {
         return new ResponseEntity<>(groupService.findById(id),
                 HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Void> post(@RequestBody @Valid GroupDto groupDto) {
+    public ResponseEntity<Void> post(@RequestBody @Valid TagDto groupDto) {
         groupService.create(groupDto);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping
-    public ResponseEntity<Void> put(@RequestBody @Valid GroupDto groupDto) {
+    public ResponseEntity<Void> put(@RequestBody @Valid TagDto groupDto) {
         groupService.update(groupDto);
         return ResponseEntity.ok().build();
     }

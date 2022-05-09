@@ -1,4 +1,4 @@
-package br.com.dcsolution.billstopay.modules.group.dto;
+package br.com.dcsolution.billstopay.modules.tag.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -11,10 +11,10 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GroupDto implements Serializable {
+public class TagDto implements Serializable {
 
     @JsonProperty("id")
-    private Integer id;
+    private Integer id = 0;
 
     @JsonProperty("name")
     @NotBlank
