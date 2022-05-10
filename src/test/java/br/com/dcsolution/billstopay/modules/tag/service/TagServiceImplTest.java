@@ -61,6 +61,17 @@ class TagServiceImplTest {
     }
 
     @Test
+    void updateExceptionExistingRecord() {
+        final Tag tag = TagServiceStub.generateEntity();
+        final TagDto tagDto = TagServiceStub.generateDto();
+
+        Mockito.when(tagRepository.findById(TagServiceStub.ID)).thenReturn(Optional.of(tag));
+        Mockito.when(tagRepository.isExistName(TagServiceStub.NAME, TagServiceStub.ID)).thenReturn(Optional.of(tag));
+
+        Assertions.assertThrows(BusinessException.class, () -> tagService.update(tagDto));
+    }
+
+    @Test
     void findAll() {
 
         final Page<Tag> pageGroup = TagServiceStub.generatePageEntity();

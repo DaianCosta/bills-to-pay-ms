@@ -61,6 +61,18 @@ class CategoryServiceImplTest {
     }
 
     @Test
+    void updateExceptionExistingRecord() {
+        final Category category = CategoryServiceStub.generateEntity();
+        final CategoryDto categoryDto = CategoryServiceStub.generateDto();
+
+        Mockito.when(categoryRepository.findById(CategoryServiceStub.ID)).thenReturn(Optional.of(category));
+        Mockito.when(categoryRepository
+                .isExistName(CategoryServiceStub.NAME, CategoryServiceStub.ID)).thenReturn(Optional.of(category));
+
+        Assertions.assertThrows(BusinessException.class, () -> categoryService.update(categoryDto));
+    }
+
+    @Test
     void findAll() {
 
         final Page<Category> pageCategory = CategoryServiceStub.generatePageEntity();
