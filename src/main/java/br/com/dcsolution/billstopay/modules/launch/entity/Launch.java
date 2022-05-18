@@ -3,13 +3,12 @@ package br.com.dcsolution.billstopay.modules.launch.entity;
 import br.com.dcsolution.billstopay.modules.category.entity.Category;
 import br.com.dcsolution.billstopay.modules.launch.enums.LaunchStatusEnum;
 import br.com.dcsolution.billstopay.modules.launch.enums.LaunchTypeEnum;
-import br.com.dcsolution.billstopay.modules.tag.entity.Tag;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -18,7 +17,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Launch {
 
     @Id
@@ -34,6 +32,9 @@ public class Launch {
     @Column(nullable = false, name = "end_position")
     private Integer endPosition;
 
+    @Column(nullable = false, name = "payment_value")
+    private BigDecimal paymentValue;
+
     @Column(nullable = false)
     private LaunchTypeEnum type;
 
@@ -41,14 +42,14 @@ public class Launch {
     @Enumerated(EnumType.ORDINAL)
     private LaunchStatusEnum status;
 
-    @Column(nullable = false)
-    private LocalDate date;
+    @Column(nullable = false, name = "payment_date")
+    private LocalDate paymentDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "launch_id", referencedColumnName = "id")
     private List<TagLaunch> tags;
 }

@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class CategoryDto implements Serializable {
 
     @JsonProperty("id")
-    private Integer id;
+    private Integer id = 0;
 
     @JsonProperty("name")
     @NotBlank

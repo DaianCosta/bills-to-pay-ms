@@ -1,8 +1,10 @@
 package br.com.dcsolution.billstopay.modules.category.rest;
 
+import br.com.dcsolution.billstopay.common.dto.PaginationDto;
 import br.com.dcsolution.billstopay.modules.category.dto.CategoryDto;
 import br.com.dcsolution.billstopay.modules.category.service.CategoryService;
 import br.com.dcsolution.billstopay.modules.category.stub.CategoryServiceStub;
+import br.com.dcsolution.billstopay.modules.launch.repository.LaunchRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.data.domain.Page;
 import org.springframework.http.*;
 
 import java.net.MalformedURLException;
@@ -31,6 +32,9 @@ class CategoryControllerTest {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Autowired
+    LaunchRepository launchRepository;
 
     @Autowired
     CategoryService categoryService;
@@ -56,7 +60,7 @@ class CategoryControllerTest {
                         String.class);
 
         final JsonNode jsonNode = objectMapper.readTree(response.getBody());
-        final Integer totalElements = jsonNode.get("totalElements").asInt();
+        final Integer totalElements = jsonNode.get("totalItems").asInt();
 
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertEquals(1, totalElements);
@@ -87,18 +91,18 @@ class CategoryControllerTest {
     @Order(4)
     void post() throws JsonProcessingException {
         final HttpEntity<String> request = new HttpEntity<>(objectMapper
-                .writeValueAsString(CategoryServiceStub.generateDtoParameter(null, "comida")),
+                .writeValueAsString(CategoryServiceStub.generateDtoParameter(null, "cartao")),
                 headers);
 
         final ResponseEntity<Void> response = restTemplate.postForEntity(URL_BASE,
                 request, Void.class);
 
-        final Page<CategoryDto> categories = categoryService.findAll(0, 10, "");
+        final PaginationDto<CategoryDto> categories = categoryService.findAll(0, 10, "");
         final String groupCreated = categories.getContent().get(1).getName();
 
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertEquals(2, categories.getTotalElements());
-        Assertions.assertEquals("comida", groupCreated);
+        Assertions.assertEquals(2, categories.getTotalItems());
+        Assertions.assertEquals("cartao", groupCreated);
     }
 
     @Test
@@ -160,6 +164,7 @@ class CategoryControllerTest {
     @Test
     @Order(8)
     void delete() {
+        launchRepository.deleteAll();
         final ResponseEntity<Void> response = restTemplate.exchange(URL_BASE + "/1",
                 HttpMethod.DELETE, null, Void.class);
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());

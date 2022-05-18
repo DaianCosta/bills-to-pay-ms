@@ -1,5 +1,6 @@
 package br.com.dcsolution.billstopay.modules.tag.service;
 
+import br.com.dcsolution.billstopay.common.dto.PaginationDto;
 import br.com.dcsolution.billstopay.common.exception.BusinessException;
 import br.com.dcsolution.billstopay.modules.tag.converter.TagConverter;
 import br.com.dcsolution.billstopay.modules.tag.dto.TagDto;
@@ -83,10 +84,10 @@ class TagServiceImplTest {
         Mockito.when(tagRepository.search(TagServiceStub.NAME, TagServiceStub.generatePageRequest()))
                 .thenReturn(pageGroup);
 
-        final Page<TagDto> result = tagService.findAll(TagServiceStub.PAGE,
+        final PaginationDto<TagDto> result = tagService.findAll(TagServiceStub.PAGE,
                 TagServiceStub.SIZE, TagServiceStub.NAME);
         Assertions.assertEquals(1, result.getTotalPages());
-        Assertions.assertEquals(1, result.getTotalElements());
+        Assertions.assertEquals(1, result.getTotalItems());
     }
 
     @Test

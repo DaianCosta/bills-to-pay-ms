@@ -1,12 +1,17 @@
 package br.com.dcsolution.billstopay.modules.category.converter;
 
 import br.com.dcsolution.billstopay.common.converter.PageConverter;
+import br.com.dcsolution.billstopay.common.dto.PaginationDto;
 import br.com.dcsolution.billstopay.modules.category.dto.CategoryDto;
 import br.com.dcsolution.billstopay.modules.category.entity.Category;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class CategoryConverter extends PageConverter {
@@ -26,8 +31,12 @@ public class CategoryConverter extends PageConverter {
         return modelMapper.map(entity, CategoryDto.class);
     }
 
-    public Page<CategoryDto> pageEntityToPageDto(final Page<Category> groups) {
-        return groups.map(this::entityToDto);
+    public PaginationDto<CategoryDto> pageEntityToPageDto(final Page<Category> items) {
+        return new PaginationDto<>(items.getTotalElements(),
+                items.getTotalPages(),
+                items.getNumber(),
+                items.getSize(),
+                items.getContent().stream().map(this::entityToDto).collect(Collectors.toList()));
     }
 
 }

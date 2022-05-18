@@ -1,9 +1,9 @@
 package br.com.dcsolution.billstopay.modules.category.rest;
 
+import br.com.dcsolution.billstopay.common.dto.PaginationDto;
 import br.com.dcsolution.billstopay.modules.category.dto.CategoryDto;
 import br.com.dcsolution.billstopay.modules.category.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +22,9 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<CategoryDto>> findAll(@RequestParam final Integer page,
-                                                     @RequestParam final Integer size,
-                                                     @RequestParam final String searchTerm) {
+    public ResponseEntity<PaginationDto<CategoryDto>> findAll(@RequestParam final Integer page,
+                                                              @RequestParam final Integer size,
+                                                              @RequestParam final String searchTerm) {
         return new ResponseEntity<>(categoryService.findAll(page, size, searchTerm),
                 HttpStatus.OK);
     }
@@ -36,13 +36,13 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> post(@RequestBody @Valid CategoryDto categoryDto) {
+    public ResponseEntity<Void> post(@RequestBody @Valid final CategoryDto categoryDto) {
         categoryService.create(categoryDto);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping
-    public ResponseEntity<Void> put(@RequestBody @Valid CategoryDto categoryDto) {
+    public ResponseEntity<Void> put(@RequestBody @Valid final CategoryDto categoryDto) {
         categoryService.update(categoryDto);
         return ResponseEntity.ok().build();
     }

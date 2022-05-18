@@ -1,7 +1,7 @@
 package br.com.dcsolution.billstopay.modules.category.service;
 
+import br.com.dcsolution.billstopay.common.dto.PaginationDto;
 import br.com.dcsolution.billstopay.modules.category.dto.CategoryDto;
-import org.springframework.data.domain.Page;
 
 public interface CategoryService {
 
@@ -9,9 +9,9 @@ public interface CategoryService {
 
     void update(final CategoryDto categoryDto);
 
-    Page<CategoryDto> findAll(final Integer page,
-                              final Integer size,
-                              final String searchTerm);
+    PaginationDto<CategoryDto> findAll(final Integer page,
+                                       final Integer size,
+                                       final String searchTerm);
 
     CategoryDto findById(final Integer id);
 

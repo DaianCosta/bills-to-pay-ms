@@ -1,9 +1,9 @@
 package br.com.dcsolution.billstopay.modules.tag.rest;
 
+import br.com.dcsolution.billstopay.common.dto.PaginationDto;
 import br.com.dcsolution.billstopay.modules.tag.dto.TagDto;
 import br.com.dcsolution.billstopay.modules.tag.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +22,9 @@ public class TagController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<TagDto>> findAll(@RequestParam final Integer page,
-                                                @RequestParam final Integer size,
-                                                @RequestParam final String searchTerm) {
+    public ResponseEntity<PaginationDto<TagDto>> findAll(@RequestParam final Integer page,
+                                                         @RequestParam final Integer size,
+                                                         @RequestParam final String searchTerm) {
         return new ResponseEntity<>(groupService.findAll(page, size, searchTerm),
                 HttpStatus.OK);
     }
@@ -36,13 +36,13 @@ public class TagController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> post(@RequestBody @Valid TagDto groupDto) {
+    public ResponseEntity<Void> post(@RequestBody @Valid final TagDto groupDto) {
         groupService.create(groupDto);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping
-    public ResponseEntity<Void> put(@RequestBody @Valid TagDto groupDto) {
+    public ResponseEntity<Void> put(@RequestBody @Valid final TagDto groupDto) {
         groupService.update(groupDto);
         return ResponseEntity.ok().build();
     }

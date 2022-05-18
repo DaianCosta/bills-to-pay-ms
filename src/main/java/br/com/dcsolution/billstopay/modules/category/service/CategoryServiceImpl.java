@@ -1,5 +1,6 @@
 package br.com.dcsolution.billstopay.modules.category.service;
 
+import br.com.dcsolution.billstopay.common.dto.PaginationDto;
 import br.com.dcsolution.billstopay.common.exception.BusinessException;
 import br.com.dcsolution.billstopay.common.exception.MessageBusiness;
 import br.com.dcsolution.billstopay.modules.category.converter.CategoryConverter;
@@ -40,9 +41,9 @@ class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Page<CategoryDto> findAll(final Integer page,
-                                     final Integer size,
-                                     final String searchTerm) {
+    public PaginationDto<CategoryDto> findAll(final Integer page,
+                                              final Integer size,
+                                              final String searchTerm) {
         final Page<Category> categories = categoryRepository.search(searchTerm,
                 categoryConverter.generatePageRequest(page, size));
         return categoryConverter.pageEntityToPageDto(categories);
@@ -73,7 +74,8 @@ class CategoryServiceImpl implements CategoryService {
     }
 
     void validateExistingName(final CategoryDto categoryDto) {
-        final Optional<Category> category = categoryRepository.isExistName(categoryDto.getName(), categoryDto.getId());
+        final Integer id = categoryDto.getId() == null ? 0 : categoryDto.getId();
+        final Optional<Category> category = categoryRepository.isExistName(categoryDto.getName(), id);
 
         if (category.isPresent()) {
             throw new BusinessException(MessageBusiness.EXISTING_RECORD);

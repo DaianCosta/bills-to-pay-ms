@@ -1,5 +1,6 @@
 package br.com.dcsolution.billstopay.modules.category.stub;
 
+import br.com.dcsolution.billstopay.common.dto.PaginationDto;
 import br.com.dcsolution.billstopay.modules.category.dto.CategoryDto;
 import br.com.dcsolution.billstopay.modules.category.entity.Category;
 import org.springframework.data.domain.Page;
@@ -43,11 +44,11 @@ public final class CategoryServiceStub {
         return new PageImpl<>(categories);
     }
 
-    public static Page<CategoryDto> generatePageDto() {
+    public static PaginationDto<CategoryDto> generatePageDto() {
         final List<CategoryDto> categories = new ArrayList<>();
         categories.add(new CategoryDto(ID, NAME));
 
-        return new PageImpl<>(categories);
+        return new PaginationDto<>(1L, 1, 1, 1, categories);
     }
 
     public static PageRequest generatePageRequest() {

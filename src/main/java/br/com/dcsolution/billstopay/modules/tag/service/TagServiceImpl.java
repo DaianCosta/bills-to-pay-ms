@@ -1,5 +1,6 @@
 package br.com.dcsolution.billstopay.modules.tag.service;
 
+import br.com.dcsolution.billstopay.common.dto.PaginationDto;
 import br.com.dcsolution.billstopay.common.exception.BusinessException;
 import br.com.dcsolution.billstopay.common.exception.MessageBusiness;
 import br.com.dcsolution.billstopay.modules.tag.converter.TagConverter;
@@ -40,9 +41,9 @@ class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Page<TagDto> findAll(final Integer page,
-                                final Integer size,
-                                final String searchTerm) {
+    public PaginationDto<TagDto> findAll(final Integer page,
+                                         final Integer size,
+                                         final String searchTerm) {
         final Page<Tag> tags = tagRepository.search(searchTerm, tagConverter.generatePageRequest(page, size));
         return tagConverter.pageEntityToPageDto(tags);
     }
@@ -72,7 +73,8 @@ class TagServiceImpl implements TagService {
     }
 
     void validateExistingName(final TagDto tagDto) {
-        final Optional<Tag> tag = tagRepository.isExistName(tagDto.getName(), tagDto.getId());
+        final Integer id = tagDto.getId() == null ? 0 : tagDto.getId();
+        final Optional<Tag> tag = tagRepository.isExistName(tagDto.getName(), id);
 
         if (tag.isPresent()) {
             throw new BusinessException(MessageBusiness.EXISTING_RECORD);

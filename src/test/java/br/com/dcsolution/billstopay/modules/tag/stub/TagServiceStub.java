@@ -1,5 +1,6 @@
 package br.com.dcsolution.billstopay.modules.tag.stub;
 
+import br.com.dcsolution.billstopay.common.dto.PaginationDto;
 import br.com.dcsolution.billstopay.modules.tag.dto.TagDto;
 import br.com.dcsolution.billstopay.modules.tag.entity.Tag;
 import org.springframework.data.domain.Page;
@@ -43,11 +44,11 @@ public final class TagServiceStub {
         return new PageImpl<>(tags);
     }
 
-    public static Page<TagDto> generatePageDto() {
+    public static PaginationDto<TagDto> generatePageDto() {
         final List<TagDto> tags = new ArrayList<>();
         tags.add(new TagDto(ID, NAME));
 
-        return new PageImpl<>(tags);
+        return new PaginationDto<>(1L, 1, 1, 1, tags);
     }
 
     public static PageRequest generatePageRequest() {

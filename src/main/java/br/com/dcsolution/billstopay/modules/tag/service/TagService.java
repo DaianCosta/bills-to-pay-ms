@@ -1,7 +1,7 @@
 package br.com.dcsolution.billstopay.modules.tag.service;
 
+import br.com.dcsolution.billstopay.common.dto.PaginationDto;
 import br.com.dcsolution.billstopay.modules.tag.dto.TagDto;
-import org.springframework.data.domain.Page;
 
 public interface TagService {
 
@@ -9,9 +9,9 @@ public interface TagService {
 
     void update(final TagDto groupDto);
 
-    Page<TagDto> findAll(final Integer page,
-                         final Integer size,
-                         final String searchTerm);
+    PaginationDto<TagDto> findAll(final Integer page,
+                                  final Integer size,
+                                  final String searchTerm);
 
     TagDto findById(final Integer id);
 

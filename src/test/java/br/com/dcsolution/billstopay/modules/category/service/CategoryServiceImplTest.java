@@ -1,5 +1,6 @@
 package br.com.dcsolution.billstopay.modules.category.service;
 
+import br.com.dcsolution.billstopay.common.dto.PaginationDto;
 import br.com.dcsolution.billstopay.common.exception.BusinessException;
 import br.com.dcsolution.billstopay.modules.category.converter.CategoryConverter;
 import br.com.dcsolution.billstopay.modules.category.dto.CategoryDto;
@@ -84,10 +85,10 @@ class CategoryServiceImplTest {
         Mockito.when(categoryRepository.search(CategoryServiceStub.NAME, CategoryServiceStub.generatePageRequest()))
                 .thenReturn(pageCategory);
 
-        final Page<CategoryDto> result = categoryService.findAll(CategoryServiceStub.PAGE,
+        final PaginationDto<CategoryDto> result = categoryService.findAll(CategoryServiceStub.PAGE,
                 CategoryServiceStub.SIZE, CategoryServiceStub.NAME);
         Assertions.assertEquals(1, result.getTotalPages());
-        Assertions.assertEquals(1, result.getTotalElements());
+        Assertions.assertEquals(1, result.getTotalItems());
     }
 
     @Test

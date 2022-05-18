@@ -1,5 +1,7 @@
 package br.com.dcsolution.billstopay.modules.tag.rest;
 
+import br.com.dcsolution.billstopay.common.dto.PaginationDto;
+import br.com.dcsolution.billstopay.modules.launch.repository.LaunchRepository;
 import br.com.dcsolution.billstopay.modules.tag.dto.TagDto;
 import br.com.dcsolution.billstopay.modules.tag.service.TagService;
 import br.com.dcsolution.billstopay.modules.tag.stub.TagServiceStub;
@@ -11,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.data.domain.Page;
 import org.springframework.http.*;
 
 import java.net.MalformedURLException;
@@ -33,6 +34,9 @@ class TagControllerTest {
     ObjectMapper objectMapper;
 
     @Autowired
+    LaunchRepository launchRepository;
+
+    @Autowired
     TagService tagService;
 
     // bind the above RANDOM_PORT
@@ -43,7 +47,7 @@ class TagControllerTest {
     public void init() throws MalformedURLException {
 
         tagService.create(TagServiceStub.generateDto());
-        URL_BASE = new URL("http://localhost:" + port + "/group").toString();
+        URL_BASE = new URL("http://localhost:" + port + "/tag").toString();
         headers.setContentType(MediaType.APPLICATION_JSON);
     }
 
@@ -51,11 +55,12 @@ class TagControllerTest {
     @Order(1)
     void findAll() throws JsonProcessingException {
 
-        final ResponseEntity<String> response = restTemplate.getForEntity(URL_BASE + "?page=0&size=10&searchTerm=free",
-                String.class);
+        final ResponseEntity<String> response = restTemplate
+                .getForEntity(URL_BASE + "?page=0&size=10&searchTerm=free",
+                        String.class);
 
         final JsonNode jsonNode = objectMapper.readTree(response.getBody());
-        final Integer totalElements = jsonNode.get("totalElements").asInt();
+        final Integer totalElements = jsonNode.get("totalItems").asInt();
 
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
         Assertions.assertEquals(1, totalElements);
@@ -86,18 +91,18 @@ class TagControllerTest {
     @Order(4)
     void post() throws JsonProcessingException {
         final HttpEntity<String> request = new HttpEntity<>(objectMapper
-                .writeValueAsString(TagServiceStub.generateDtoParameter(null, "banrisul")),
+                .writeValueAsString(TagServiceStub.generateDtoParameter(null, "bb")),
                 headers);
 
         final ResponseEntity<Void> response = restTemplate.postForEntity(URL_BASE,
                 request, Void.class);
 
-        final Page<TagDto> groups = tagService.findAll(0, 10, "");
+        final PaginationDto<TagDto> groups = tagService.findAll(0, 10, "");
         final String groupCreated = groups.getContent().get(1).getName();
 
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-        Assertions.assertEquals(2, groups.getTotalElements());
-        Assertions.assertEquals("banrisul", groupCreated);
+        Assertions.assertEquals(2, groups.getTotalItems());
+        Assertions.assertEquals("bb", groupCreated);
     }
 
     @Test
@@ -167,6 +172,7 @@ class TagControllerTest {
     @Test
     @Order(9)
     void deleteBadRequest() {
+        launchRepository.deleteAll();
         final ResponseEntity<Void> response = restTemplate.exchange(URL_BASE + "/10",
                 HttpMethod.DELETE, null, Void.class);
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
