@@ -2,8 +2,6 @@ package br.com.dcsolution.billstopay.modules.tag.converter;
 
 import br.com.dcsolution.billstopay.common.converter.PageConverter;
 import br.com.dcsolution.billstopay.common.dto.PaginationDto;
-import br.com.dcsolution.billstopay.modules.category.dto.CategoryDto;
-import br.com.dcsolution.billstopay.modules.category.entity.Category;
 import br.com.dcsolution.billstopay.modules.tag.dto.TagDto;
 import br.com.dcsolution.billstopay.modules.tag.entity.Tag;
 import org.modelmapper.ModelMapper;
@@ -13,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
-@Component
+@Components
 public class TagConverter extends PageConverter {
 
     private final ModelMapper modelMapper;

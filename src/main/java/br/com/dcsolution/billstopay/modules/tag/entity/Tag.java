@@ -1,6 +1,5 @@
 package br.com.dcsolution.billstopay.modules.tag.entity;
 
-import br.com.dcsolution.billstopay.modules.launch.entity.Launch;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
